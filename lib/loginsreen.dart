@@ -41,112 +41,107 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(extendBodyBehindAppBar: true,
+    return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Container(alignment:AlignmentDirectional(10, 0),
-          decoration: BoxDecoration(
-              image:DecorationImage(image: AssetImage("assets/8.jpg"),
-                fit:BoxFit.fitWidth,),),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  const SizedBox(height: 40),
-                  Center(
-                    child: Text(
-                      'SANIVA', // App name
-                      style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue),
-                    ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                const SizedBox(height: 40),
+                Center(
+                  child: Text(
+                    'SANIVA', // App name
+                    style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent),
                   ),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text(
-                      'Login Screen',
-                      style:
-                      TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                    ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: Text(
+                    'Login Screen',
+                    style:
+                    TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.1),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.1),
 
-                  // Email Field
-                  TextFormField(
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'E-mail',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter an email';
-                      }
-                      if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
-                          .hasMatch(value)) {
-                        return 'Enter a valid email';
-                      }
-                      return null;
-                    },
+                // Email Field
+                TextFormField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'E-mail',contentPadding: EdgeInsets.all(10),
+                    border: OutlineInputBorder(),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.1),
+                  keyboardType: TextInputType.emailAddress,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter an email';
+                    }
+                    if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
+                        .hasMatch(value)) {
+                      return 'Enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.1),
 
-                  // Password Field with Eye Icon
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Colors.grey),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
+                // Password Field with Eye Icon
+                TextFormField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',contentPadding: EdgeInsets.all(10),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: Colors.grey),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
+                  ),
+                  obscureText: _obscurePassword,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter a valid password';
+                    }
+                    if (value.length < 8) {
+                      return 'Password must be at least 8 characters';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 30),
+
+                // Submit Button
+                Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 20.0),
+                      textStyle: const TextStyle(fontSize: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    obscureText: _obscurePassword,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter a valid password';
-                      }
-                      if (value.length < 8) {
-                        return 'Password must be at least 8 characters';
-                      }
-                      return null;
-                    },
+                    onPressed: submit,
+                    child: const Text('Login'),
                   ),
-                  const SizedBox(height: 30),
-
-                  // Submit Button
-                  Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 20.0),
-                        textStyle: const TextStyle(fontSize: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: submit,
-                      child: const Text('Login'),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
